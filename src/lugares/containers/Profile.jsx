@@ -16,9 +16,11 @@ class Profile extends Component {
           <div className='row'>
             <div className='col my-2 mx-1 p-2 bg-white rounded-top'>
               <span className='h3 mx-2'>Perfil</span>
-              <button className='btn btn-dark btn-sm float-right'>
-                Editar Perfil
-              </button>
+              <Link to='/edit-profile'>
+                <button className='btn btn-dark btn-sm float-right'>
+                  Editar Perfil
+                </button>
+              </Link>
             </div>
           </div>
           <div className='row'>
@@ -29,12 +31,7 @@ class Profile extends Component {
                 src={fotoPerfil}
                 alt='foto de perfil'
               />
-              <h6>Mas datos 1</h6>
-              <h6>Mas datos 2</h6>
-              <h6>Mas datos 3</h6>
-              <button className='btn btn-secondary btn-sm'>
-                Editar perfil
-              </button>
+              <h6>Ciudad</h6>
             </div>
             <div className='col text-center bg-white mx-1 mb-2'>
               <h3 className='mt-2'>LUGARES COMPARTIDOS</h3>
@@ -50,13 +47,13 @@ class Profile extends Component {
                   url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                 />
               </Mapita>
-              <div class='row row-cols-1 row-cols-md-2 row-cols-lg-3 mt-4'>
-                <div class='col mb-4'>
-                  <div class='card'>
-                    <img src='...' class='card-img-top' alt='...' />
-                    <div class='card-body'>
-                      <h5 class='card-title'>Card title</h5>
-                      <p class='card-text'>
+              <div className='row row-cols-1 row-cols-md-2 row-cols-lg-3 mt-4'>
+                <div className='col mb-4'>
+                  <div className='card'>
+                    <img src='...' className='card-img-top' alt='...' />
+                    <div className='card-body'>
+                      <h5 className='card-title'>Card title</h5>
+                      <p className='card-text'>
                         <button className='btn btn-dark'>Ver Lugar</button>
                       </p>
                     </div>

@@ -22,7 +22,7 @@ export const Navbar = () => {
       <div className='collapse navbar-collapse' id='navbarColor01'>
         <ul className='navbar-nav mr-auto'>
           <li className='nav-item'>
-            <Link className='nav-link' to='/'>
+            <Link className='nav-link' to='/lugares'>
               Lugares
             </Link>
           </li>
