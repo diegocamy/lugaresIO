@@ -61,7 +61,35 @@ route.post('/register', (req, res) => {
 });
 
 // GET /api/users/
-// registra un usuario
+// obtener lista de usuarios
 // publica
+
+route.get('/', (req, res) => {
+  User.find()
+    .sort('nombreUsuario')
+    .then(users => {
+      if (!users) {
+        return res.status(404).json({ error: 'No existen usuarios.' });
+      }
+
+      res.json(users);
+    })
+    .catch(err => res.json(err));
+});
+
+// GET /api/users/:user_id
+// obtener usuario por id
+// publica
+
+route.get('/:user_id', (req, res) => {
+  User.findOne({ _id: req.params.user_id })
+    .then(user => {
+      if (!user) {
+        res.status(404).json({ error: 'Usuario no encontrado.' });
+      }
+      res.json(user);
+    })
+    .catch(err => res.status(404).json({ error: 'Usuario no encontrado.' }));
+});
 
 module.exports = route;
