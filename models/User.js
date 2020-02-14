@@ -26,7 +26,19 @@ const userSchema = new Schema({
         ref: 'users'
       }
     }
-  ]
+  ],
+  seguidos: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'users'
+      }
+    }
+  ],
+  fecha: {
+    type: Date,
+    default: Date.now()
+  }
 });
 
 module.exports = User = mongoose.model('users', userSchema);
