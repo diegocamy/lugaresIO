@@ -1,6 +1,7 @@
 const express = require('express');
 const route = express.Router();
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 //User mongoose schema
 const User = require('../models/User');
@@ -58,6 +59,62 @@ route.post('/register', (req, res) => {
       })
       .catch(err => res.status(400).json(err));
   });
+});
+
+// POST /api/users/login
+// logea un usuario
+// publica
+
+route.post('/login', (req, res) => {
+  //datos ingresados
+  const usuarioIngresado = {
+    nombreUsuario: req.body.nombreUsuario,
+    password: req.body.password
+  };
+
+  //buscar usuario en db
+  User.findOne({ nombreUsuario: usuarioIngresado.nombreUsuario }).then(
+    usuario => {
+      if (!usuario) {
+        return res
+          .status(400)
+          .json({ error: 'Usuario o contraseña incorrecta' });
+      }
+
+      //comparar password
+      bcrypt
+        .compare(usuarioIngresado.password, usuario.password)
+        .then(sonIguales => {
+          if (sonIguales) {
+            //JWT payload
+            const payload = {
+              id: usuario._id,
+              nombreUsuario: usuario.nombreUsuario
+            };
+            //JWT
+            const token = jwt.sign(
+              payload,
+              process.env.LLAVE,
+              {
+                expiresIn: '1h'
+              },
+              //devolver token
+              (err, token) => {
+                res.json({
+                  mensaje: 'Autenticación correcta',
+                  token
+                });
+              }
+            );
+          } else {
+            return res
+              .status(400)
+              .json({ error: 'Usuario o contraseña incorrecta' });
+          }
+        })
+        .catch(err => res.sendStatus(400).json(err));
+    }
+  );
 });
 
 // GET /api/users/

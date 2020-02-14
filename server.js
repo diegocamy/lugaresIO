@@ -22,8 +22,8 @@ app.get('/', (req, res) => {
 });
 
 //middleware
-app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 //Rutas
 app.use('/api/users', userRoute);
