@@ -1,5 +1,6 @@
 const express = require('express');
 const route = express.Router();
+// require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -8,6 +9,9 @@ const User = require('../models/User');
 
 //joi user validation
 const userValidation = require('../validation/userValidation');
+
+//auth middleware
+const authValidate = require('../authentication/validAuth');
 
 // POST /api/users/register
 // registra un usuario
@@ -92,7 +96,7 @@ route.post('/login', (req, res) => {
               nombreUsuario: usuario.nombreUsuario
             };
             //JWT
-            const token = jwt.sign(
+            jwt.sign(
               payload,
               process.env.LLAVE,
               {
@@ -100,10 +104,14 @@ route.post('/login', (req, res) => {
               },
               //devolver token
               (err, token) => {
-                res.json({
-                  mensaje: 'Autenticación correcta',
-                  token
-                });
+                if (err) {
+                  console.log(err);
+                  return res
+                    .status(400)
+                    .json({ error: 'Usuario o contraseña incorrecta' });
+                }
+
+                res.json({ token });
               }
             );
           } else {
