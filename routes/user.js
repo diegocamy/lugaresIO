@@ -26,6 +26,9 @@ route.post('/register', (req, res) => {
     //usuario ingresado
     const usuarioIngresado = {
       nombreUsuario: req.body.nombreUsuario,
+      nombre: req.body.nombre || '',
+      ciudad: req.body.ciudad || '',
+      pais: req.body.pais || '',
       password: req.body.password,
       password2: req.body.password2
     };
@@ -123,6 +126,46 @@ route.post('/login', (req, res) => {
         .catch(err => res.sendStatus(400).json(err));
     }
   );
+});
+
+// PATCH /api/users/
+// actualizar info del user
+// privada
+
+route.patch('/update', authValidate, (req, res) => {
+  //nuevos datos
+  const datosIngresados = {
+    nombre: req.body.nombre || '',
+    ciudad: req.body.ciudad || '',
+    pais: req.body.pais || ''
+  };
+
+  //actualizar los datos
+  User.findOneAndUpdate(
+    { _id: req.user.id },
+    {
+      $set: {
+        ciudad: datosIngresados.ciudad,
+        nombre: datosIngresados.nombre,
+        pais: datosIngresados.pais
+      }
+    },
+    { new: true, useFindAndModify: false }
+  )
+    .then(user => {
+      if (user) {
+        return res.json({
+          id: user._id,
+          nombreUsuario: user.nombreUsuario,
+          nombre: user.nombre,
+          ciudad: user.ciudad,
+          pais: user.pais
+        });
+      } else {
+        return res.status(404).json({ error: 'User not found.' });
+      }
+    })
+    .catch(err => res.status(400).json({ error: err }));
 });
 
 // GET /api/users/
