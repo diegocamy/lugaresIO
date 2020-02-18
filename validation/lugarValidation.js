@@ -6,6 +6,7 @@ const lugarValidation = Joi.object({
     .messages({
       'string.empty': 'Debe ingresar un nombre'
     }),
+  latlng: Joi.object().required(),
   usuario: Joi.string().required(),
   foto: Joi.required().messages({
     'any.empty': 'Debe cargar una foto'

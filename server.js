@@ -22,6 +22,7 @@ app.get('/', (req, res) => {
 });
 
 //middleware
+app.use('/uploads', express.static('uploads'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 

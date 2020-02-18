@@ -11,6 +11,16 @@ const lugarSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'users'
     },
+    latlng: {
+      lat: {
+        type: Number,
+        required: true
+      },
+      lng: {
+        type: Number,
+        required: true
+      }
+    },
     foto: {
       type: String,
       required: true

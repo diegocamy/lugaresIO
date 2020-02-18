@@ -4,10 +4,10 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
-    cb(null, './uploads/');
+    cb(null, './uploads');
   },
   filename: function(req, file, cb) {
-    cb(null, new Date().toISOString().replace(/:/g, '.') + file.originalname);
+    cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname);
   }
 });
 
@@ -38,8 +38,30 @@ const Lugar = require('../models/Lugar');
 //validation para el lugar
 const lugarValidation = require('../validation/lugarValidation');
 
+// GET /api/places/
+// obtener todos los lugares
+// publica
+
 route.get('/', (req, res) => {
-  res.send('PLACES ROUTE');
+  Lugar.find()
+    .select('_id nombre foto descripcion likes usuario latlng')
+    .exec()
+    .then(lugares => res.json(lugares))
+    .catch(err => {
+      return res.status(400).json({ error: err });
+    });
+});
+
+// GET /api/places/:id
+// obtener un lugar
+// publica
+
+route.get('/:id', (req, res) => {
+  Lugar.findOne({ _id: req.params.id })
+    .then(lugar => res.json(lugar))
+    .catch(err => {
+      return res.status(400).json({ error: 'Lugar no encontrado.' });
+    });
 });
 
 // POST /api/places/
@@ -50,12 +72,14 @@ route.post('/', upload.single('fotoLugar'), authValidate, (req, res) => {
   if (!req.file)
     return res.status(400).json({ error: 'Necesita subir una foto' });
 
-  console.log(req.user);
-
   const lugarIngresado = {
+    latlng: {
+      lat: req.body.lat,
+      lng: req.body.lng
+    },
     nombre: req.body.nombre,
     usuario: req.user.id,
-    foto: req.file.path,
+    foto: req.file.path.replace(`\\`, '/'),
     descripcion: req.body.descripcion || ''
   };
 
