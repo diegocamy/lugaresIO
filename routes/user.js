@@ -168,6 +168,16 @@ route.patch('/update', authValidate, (req, res) => {
     .catch(err => res.status(400).json({ error: err }));
 });
 
+// DELETE /api/users/
+// borrar user
+// privada
+
+route.delete('/delete', authValidate, (req, res) => {
+  User.findOneAndDelete({ _id: req.user.id })
+    .then(() => res.json({ success: 'Usuario eliminado' }))
+    .catch(err => res.status(400).json({ error: err }));
+});
+
 // GET /api/users/
 // obtener lista de usuarios
 // publica

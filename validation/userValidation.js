@@ -23,9 +23,9 @@ const userValidation = Joi.object({
       'string.min': 'La contraseña debe contener al menos 8 caracteres',
       'string.max': 'La contraseña debe contener como maximo 30 caracteres'
     }),
-  nombre: Joi.string(),
-  ciudad: Joi.string(),
-  pais: Joi.string(),
+  nombre: Joi.string().allow(''),
+  ciudad: Joi.string().allow(''),
+  pais: Joi.string().allow(''),
   seguidores: Joi.array(),
   seguidos: Joi.array()
 });
