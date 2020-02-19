@@ -25,9 +25,7 @@ const userValidation = Joi.object({
     }),
   nombre: Joi.string().allow(''),
   ciudad: Joi.string().allow(''),
-  pais: Joi.string().allow(''),
-  seguidores: Joi.array(),
-  seguidos: Joi.array()
+  pais: Joi.string().allow('')
 });
 
 module.exports = userValidation;

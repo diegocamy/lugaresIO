@@ -19,23 +19,7 @@ const userSchema = new Schema(
     },
     pais: {
       type: String
-    },
-    seguidores: [
-      {
-        user: {
-          type: Schema.Types.ObjectId,
-          ref: 'users'
-        }
-      }
-    ],
-    seguidos: [
-      {
-        user: {
-          type: Schema.Types.ObjectId,
-          ref: 'users'
-        }
-      }
-    ]
+    }
   },
   { timestamps: true }
 );

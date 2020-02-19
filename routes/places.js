@@ -64,6 +64,14 @@ route.get('/:id', (req, res) => {
     });
 });
 
+route.get('/user/:userId', (req, res) => {
+  Lugar.find({ usuario: req.params.userId })
+    .then(lugares => res.json(lugares))
+    .catch(err => {
+      return res.status(400).json({ error: 'No hay lugares para mostrar' });
+    });
+});
+
 // POST /api/places/
 // crear un lugar nuevo
 // privada
