@@ -101,4 +101,34 @@ route.post('/', upload.single('fotoLugar'), authValidate, (req, res) => {
   });
 });
 
+// PATCH /api/places/like/:id
+// like a un lugar
+// privada
+
+route.post('/like/:id', authValidate, (req, res) => {
+  Lugar.findOne({ _id: req.params.id }).then(lugar => {
+    //Verificar si el usuario ha dado like
+    const like = lugar.likes.find(el => el.toString() === req.user.id);
+
+    //si ha dado like, elimina el like
+    if (like) {
+      const newLikeArray = lugar.likes.filter(
+        lk => lk.toString() !== like.toString()
+      );
+      lugar.likes = [...newLikeArray];
+    } else {
+      //si no ha dado like, agrega el like
+      lugar.likes.unshift(req.user.id);
+      console.log(lugar.likes);
+    }
+
+    //guarda los cambios
+    lugar
+      .save()
+      .then(lugar => res.json(lugar))
+      .catch(err => res.json({ errorazo: err }));
+  });
+  // .catch(error => res.status(404).json({ error: 'Lugar no encontrado' }));
+});
+
 module.exports = route;
