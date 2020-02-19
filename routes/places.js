@@ -168,4 +168,17 @@ route.patch('/:id', authValidate, upload.single('fotoLugar'), (req, res) => {
     .catch(err => res.status(400).json({ error: err }));
 });
 
+// DELETE /api/places/:id
+// borra un lugar
+// privada
+
+route.delete('/:id', authValidate, (req, res) => {
+  Lugar.findOneAndDelete({
+    _id: req.params.id,
+    usuario: req.user.id
+  })
+    .then(lugar => res.json(lugar))
+    .catch(err => res.status(400).json({ error: err }));
+});
+
 module.exports = route;
