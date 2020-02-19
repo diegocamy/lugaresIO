@@ -68,7 +68,7 @@ route.get('/:id', (req, res) => {
 // crear un lugar nuevo
 // privada
 
-route.post('/', upload.single('fotoLugar'), authValidate, (req, res) => {
+route.post('/', authValidate, upload.single('fotoLugar'), (req, res) => {
   if (!req.file)
     return res.status(400).json({ error: 'Necesita subir una foto' });
 
@@ -101,7 +101,7 @@ route.post('/', upload.single('fotoLugar'), authValidate, (req, res) => {
   });
 });
 
-// PATCH /api/places/like/:id
+// POST /api/places/like/:id
 // like a un lugar
 // privada
 
@@ -129,6 +129,43 @@ route.post('/like/:id', authValidate, (req, res) => {
       .catch(err => res.json({ errorazo: err }));
   });
   // .catch(error => res.status(404).json({ error: 'Lugar no encontrado' }));
+});
+
+// PATCH /api/places/:id
+// actualiza la info a un lugar
+// privada
+
+route.patch('/:id', authValidate, upload.single('fotoLugar'), (req, res) => {
+  const nuevosDatos = {};
+
+  if (req.file) {
+    nuevosDatos.foto = req.file.path.replace(`\\`, '/');
+  }
+
+  if (req.body.lat && req.body.lng) {
+    nuevosDatos.latlng = {};
+    nuevosDatos.latlng.lat = req.body.lat;
+    nuevosDatos.latlng.lng = req.body.lng;
+  }
+
+  if (req.body.nombre) {
+    nuevosDatos.nombre = req.body.nombre;
+  }
+
+  if (req.body.descripcion) {
+    nuevosDatos.descripcion = req.body.descripcion;
+  }
+
+  Lugar.findOneAndUpdate(
+    { _id: req.params.id, usuario: req.user.id },
+    nuevosDatos,
+    {
+      new: true,
+      useFindAndModify: false
+    }
+  )
+    .then(usr => res.status(200).json(usr))
+    .catch(err => res.status(400).json({ error: err }));
 });
 
 module.exports = route;
