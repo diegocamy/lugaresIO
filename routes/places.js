@@ -64,6 +64,10 @@ route.get('/:id', (req, res) => {
     });
 });
 
+// GET /api/places/user/:userI d
+// obtener un lugar
+// publica
+
 route.get('/user/:userId', (req, res) => {
   Lugar.find({ usuario: req.params.userId })
     .then(lugares => res.json(lugares))
@@ -137,6 +141,69 @@ route.post('/like/:id', authValidate, (req, res) => {
       .catch(err => res.json({ errorazo: err }));
   });
   // .catch(error => res.status(404).json({ error: 'Lugar no encontrado' }));
+});
+
+// POST /api/places/comment/:id
+// agrega un comentario a un lugar
+// privada
+
+route.post('/comment/:id', authValidate, (req, res) => {
+  Lugar.findOne({ _id: req.params.id })
+    .then(lugar => {
+      //datos del comentario ingresado
+      const comentarioIngresado = {
+        usuario: req.user.id,
+        comentario: req.body.comentario
+      };
+
+      //si el comentario no tiene texto, devolver un error
+      if (comentarioIngresado.comentario.length === 0)
+        return res.status(400).json({ error: 'Debe ingresar un comentario' });
+
+      //agregar el comentario a la lista
+      lugar.comentarios.push(comentarioIngresado);
+
+      lugar
+        .save()
+        .then(lugar => res.json(lugar))
+        .catch(err => res.json({ error: err }));
+    })
+    .catch(error => res.status(404).json({ error: 'Lugar no encontrado' }));
+});
+
+// POST /api/places/delete-comment/:id
+// borra un comentario a un lugar
+// privada
+
+route.post('/delete-comment/:id', authValidate, (req, res) => {
+  Lugar.findOne({ _id: req.params.id })
+    .then(lugar => {
+      //datos del comentario
+      const datosComentario = {
+        usuario: req.user.id,
+        idComentario: req.body.idComentario
+      };
+
+      //buscar comentario a borrar
+      const comentarioElegido = lugar.comentarios.find(comentario => {
+        return comentario._id.toString() === datosComentario.idComentario;
+      });
+
+      //si el comentario no existe, devolver un error
+      if (!comentarioElegido)
+        return res.status(404).json({ error: 'Comentario no encontrado' });
+
+      //eliminar el comentario de la lista
+      lugar.comentarios = lugar.comentarios.filter(
+        c => c !== comentarioElegido
+      );
+
+      lugar
+        .save()
+        .then(lugar => res.json(lugar))
+        .catch(err => res.json({ error: err }));
+    })
+    .catch(error => res.status(404).json({ error: 'Lugar no encontrado' }));
 });
 
 // PATCH /api/places/:id

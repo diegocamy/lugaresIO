@@ -6,13 +6,18 @@ const lugarValidation = Joi.object({
     .messages({
       'string.empty': 'Debe ingresar un nombre'
     }),
-  latlng: Joi.object().required(),
+  latlng: Joi.object()
+    .required()
+    .messages({
+      'object.required': 'Debe incluir latitud y longitud'
+    }),
   usuario: Joi.string().required(),
   foto: Joi.required().messages({
     'any.empty': 'Debe cargar una foto'
   }),
   descripcion: Joi.string().allow(''),
-  likes: Joi.array()
+  likes: Joi.array(),
+  comentarios: Joi.array()
 });
 
 module.exports = lugarValidation;

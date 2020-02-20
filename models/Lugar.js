@@ -33,6 +33,17 @@ const lugarSchema = new Schema(
         type: Schema.Types.ObjectId,
         ref: 'users'
       }
+    ],
+    comentarios: [
+      {
+        usuario: {
+          type: Schema.Types.ObjectId,
+          ref: 'users'
+        },
+        comentario: {
+          type: String
+        }
+      }
     ]
   },
   { timestamps: true }
