@@ -1,10 +1,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
 const userRoute = require('./routes/user');
 const placesRoute = require('./routes/places');
+
+//cors options
+const corsOptions = {
+  origin: 'http://localhost:3000'
+};
 
 //connect to db
 mongoose
@@ -22,6 +28,7 @@ app.get('/', (req, res) => {
 });
 
 //middleware
+app.use(cors(corsOptions));
 app.use('/uploads', express.static('uploads'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
