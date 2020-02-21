@@ -76,7 +76,7 @@ const LUGARES2 = [
   },
   {
     id: 27,
-    nombre: 'Parque',
+    nombre: 'ParquePAREQUE ARASCAPITO DI SOUZA FRAGANTI',
     foto:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaBHcfOLz9imvBaiaSOLc6aEW2sAh7Zo9a4SFmJUwFZ-OLqutY&s',
     descripcion:

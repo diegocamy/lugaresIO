@@ -1,5 +1,6 @@
 import React from 'react';
 import { Map as Mapita, TileLayer, Marker, Popup } from 'react-leaflet';
+import { Link } from 'react-router-dom';
 
 const data = [
   { id: 1, latlng: { lat: -30, lng: -55 } },
@@ -21,7 +22,9 @@ const Home = () => {
         <Popup>
           <div className='container text-center'>
             <h6>Nombre</h6>
-            <button className='btn btn-sm btn-dark'>Ver lugar</button>
+            <Link to='lugar/2'>
+              <button className='btn btn-sm btn-dark'>Ver lugar</button>
+            </Link>
           </div>
         </Popup>
       </Marker>

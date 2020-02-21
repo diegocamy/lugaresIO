@@ -11,7 +11,7 @@ const Lugar = ({ nombre, foto, likes }) => {
           alt={nombre}
         />
         <div className='card-body'>
-          <h6 className='card-title text-dark'>
+          <h6 className='card-title text-dark text-truncate'>
             <strong>{nombre}</strong>
           </h6>
           <p className='card-title text-dark'>User</p>

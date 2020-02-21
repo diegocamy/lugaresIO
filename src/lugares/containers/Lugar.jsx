@@ -52,7 +52,7 @@ const Lugar = () => {
   return (
     <div className='bg-light'>
       <div className='container text-center py-2'>
-        <h3 className='my-2'>Titulo del lugar</h3>
+        <h2 className='my-2 text-uppercase'>Titulo del lugar</h2>
         <h5 className='my-2'>Descripcion del lugar este</h5>
         <div className='row'>
           <div className='col-md-6 my-2 bg-white p-2' style={{ height: 350 }}>

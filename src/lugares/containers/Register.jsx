@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
-const Register = () => {
-  const [nombre, setNombre] = useState('');
-  const [email, setEmail] = useState('');
+import { userRegister } from '../../actions';
+
+const Register = props => {
+  const [nombreUsuario, setNombreUsuario] = useState('');
   const [pass, setPass] = useState('');
   const [pass2, setPass2] = useState('');
   const [error, setError] = useState('');
 
   const submitNewUser = e => {
     e.preventDefault();
-    const loginInfo = { nombre, email, pass, pass2 };
+    const nuevoUser = { nombreUsuario, password: pass, password2: pass2 };
     if (pass !== pass2) return setError('Las contraseñas deben coincidir!');
 
-    console.log(loginInfo);
+    props.userRegister(nuevoUser, props.history);
   };
 
   const alertMessage = (
@@ -26,29 +29,15 @@ const Register = () => {
       {error && alertMessage}
       <form onSubmit={submitNewUser}>
         <div className='form-group'>
-          <label htmlFor='nombre'>Nombre</label>
+          <label htmlFor='nombreUsuario'>Nombre de Usuario</label>
           <input
             type='text'
             className='form-control'
-            id='nombre'
+            id='nombreUsuario'
             aria-describedby='nombreHelp'
-            value={nombre}
+            value={nombreUsuario}
             onChange={e => {
-              setNombre(e.target.value);
-              setError('');
-            }}
-          />
-        </div>
-        <div className='form-group'>
-          <label htmlFor='exampleInputEmail1'>Email</label>
-          <input
-            type='email'
-            className='form-control'
-            id='exampleInputEmail1'
-            aria-describedby='emailHelp'
-            value={email}
-            onChange={e => {
-              setEmail(e.target.value.toLowerCase());
+              setNombreUsuario(e.target.value);
               setError('');
             }}
           />
@@ -85,4 +74,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default withRouter(connect(null, { userRegister })(Register));
