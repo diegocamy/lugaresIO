@@ -6,7 +6,7 @@ import {
 
 const initialState = {
   loading: false,
-  error: {}
+  error: ''
 };
 
 export default function registerReducer(state = initialState, action) {
@@ -15,7 +15,7 @@ export default function registerReducer(state = initialState, action) {
       return {
         ...state,
         loading: true,
-        error: {}
+        error: ''
       };
     case USER_REGISTER_SUCCESS:
       return {

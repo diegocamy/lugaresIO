@@ -13,6 +13,7 @@ import Home from './lugares/containers/Home';
 
 import './App.css';
 import Lugar from './lugares/containers/Lugar';
+import Registrado from './lugares/containers/Registrado';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route exact path='/lugar/:id' component={Lugar} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Register} />
+          <Route exact path='/registrado' component={Registrado} />
           <Route exact path='/profile' component={Profile} />
           <Route exact path='/edit-profile' component={EditarPerfil} />
           <Route exact path='/add-place' component={NuevoLugar} />

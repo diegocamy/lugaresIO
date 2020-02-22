@@ -5,7 +5,6 @@ import fotoPerfil from '../../img/profile.png';
 
 class Profile extends Component {
   render() {
-    const id = 22;
     const latlng = {
       lat: -30.90534,
       lng: -55.55076

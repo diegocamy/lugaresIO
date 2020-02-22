@@ -4,18 +4,15 @@ import { withRouter } from 'react-router-dom';
 
 import { userRegister } from '../../actions';
 
-const Register = props => {
+const Register = ({ history, userRegister, error, loading }) => {
   const [nombreUsuario, setNombreUsuario] = useState('');
   const [pass, setPass] = useState('');
   const [pass2, setPass2] = useState('');
-  const [error, setError] = useState('');
 
   const submitNewUser = e => {
     e.preventDefault();
     const nuevoUser = { nombreUsuario, password: pass, password2: pass2 };
-    if (pass !== pass2) return setError('Las contraseñas deben coincidir!');
-
-    props.userRegister(nuevoUser, props.history);
+    userRegister(nuevoUser, history);
   };
 
   const alertMessage = (
@@ -38,7 +35,6 @@ const Register = props => {
             value={nombreUsuario}
             onChange={e => {
               setNombreUsuario(e.target.value);
-              setError('');
             }}
           />
         </div>
@@ -51,7 +47,6 @@ const Register = props => {
             value={pass}
             onChange={e => {
               setPass(e.target.value);
-              setError('');
             }}
           />
         </div>
@@ -64,7 +59,6 @@ const Register = props => {
             value={pass2}
             onChange={e => {
               setPass2(e.target.value);
-              setError('');
             }}
           />
         </div>
@@ -74,4 +68,11 @@ const Register = props => {
   );
 };
 
-export default withRouter(connect(null, { userRegister })(Register));
+const mapStateToProps = state => {
+  return {
+    loading: state.register.loading,
+    error: state.register.error
+  };
+};
+
+export default withRouter(connect(mapStateToProps, { userRegister })(Register));

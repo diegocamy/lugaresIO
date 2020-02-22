@@ -15,8 +15,12 @@ export const userRegister = (usuarioNuevo, history) => dispatch => {
       password2: usuarioNuevo.password2
     })
     .then(res => {
-      dispatch(registerSuccess);
-      history.push('/login');
+      if (res.data.error) {
+        dispatch(registerError(res.data.error));
+      } else {
+        dispatch(registerSuccess);
+        history.push('/registrado');
+      }
     })
     .catch(err => dispatch(registerError(err)));
 };
