@@ -21,9 +21,7 @@ route.post('/register', (req, res) => {
   User.findOne({ nombreUsuario: req.body.nombreUsuario })
     .then(user => {
       if (user) {
-        return res
-          .status(400)
-          .json({ error: 'Ese nombre de usuario ya existe' });
+        return res.json({ error: 'Ese nombre de usuario ya existe' });
       }
 
       //usuario ingresado
@@ -36,9 +34,13 @@ route.post('/register', (req, res) => {
         password2: req.body.password2
       };
 
+      if (!usuarioIngresado.nombreUsuario) {
+        return res.json({ error: 'Debe ingresar un nombre de usuario!' });
+      }
+
       //checkear si las contraseñas coinciden
       if (usuarioIngresado.password !== usuarioIngresado.password2) {
-        return res.status(400).json({ error: 'Las contraseñas no coinciden' });
+        return res.json({ error: 'Las contraseñas no coinciden' });
       }
 
       delete usuarioIngresado.password2;
@@ -47,9 +49,7 @@ route.post('/register', (req, res) => {
       const validation = userValidation.validate(usuarioIngresado);
 
       if (validation.error) {
-        return res
-          .status(400)
-          .json({ error: validation.error.details[0].message });
+        return res.json({ error: validation.error.details[0].message });
       }
 
       //crear usuario
@@ -65,13 +65,11 @@ route.post('/register', (req, res) => {
           nuevoUsuario
             .save()
             .then(usr => res.json({ id: usr._id, usuario: usr.nombreUsuario }))
-            .catch(e => res.status(400).json(e));
+            .catch(e => res.json(e));
         })
-        .catch(err => res.status(400).json(err));
+        .catch(err => res.json(err));
     })
-    .catch(err =>
-      res.status(400).json({ error: 'Ese nombre de usuario ya existe!' })
-    );
+    .catch(err => res.json({ error: 'Ese nombre de usuario ya existe!' }));
 });
 
 // POST /api/users/login
