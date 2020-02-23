@@ -1,9 +1,10 @@
 import { userRegister } from './userRegister';
-import { login } from './userLogin';
+import { login, logout } from './userLogin';
 
 const actions = {
   userRegister,
-  login
+  login,
+  logout
 };
 
 export default actions;

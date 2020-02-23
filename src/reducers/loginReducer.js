@@ -1,9 +1,4 @@
-import {
-  USER_LOGIN_STARTED,
-  USER_LOGIN_SUCCESS,
-  USER_LOGIN_ERROR,
-  SET_USUARIO_ACTUAL
-} from '../types';
+import { USER_LOGOUT, USER_LOGIN_ERROR, SET_USUARIO_ACTUAL } from '../types';
 
 const initialState = {
   user: {},
@@ -17,12 +12,19 @@ export default function loginReducer(state = initialState, action) {
       return {
         ...state,
         autenticado: Object.entries(action.user) === 0 ? false : true,
-        user: action.user
+        user: action.user,
+        error: ''
       };
     case USER_LOGIN_ERROR:
       return {
         ...state,
         error: action.payload
+      };
+    case USER_LOGOUT:
+      return {
+        user: {},
+        autenticado: false,
+        error: ''
       };
     default:
       return state;

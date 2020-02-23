@@ -1,7 +1,7 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 
-import { USER_LOGIN_ERROR, SET_USUARIO_ACTUAL } from '../types';
+import { USER_LOGIN_ERROR, SET_USUARIO_ACTUAL, USER_LOGOUT } from '../types';
 import { setAuthorizationToken } from '../utils/utils';
 
 export const guardarUserEnStore = usuario => {
@@ -44,4 +44,13 @@ export const login = ({ nombreUsuario, password }, history) => dispatch => {
     .catch(err => {
       if (err) dispatch(setErrorLogin(err.response.data.error));
     });
+};
+
+export const logout = history => dispatch => {
+  //eliminar token de localStorage
+  localStorage.removeItem('token');
+  //dispatch accion para eliminar user en store
+  dispatch({ type: USER_LOGOUT });
+  //redireccionar a la pagina de login
+  history.push('/login');
 };

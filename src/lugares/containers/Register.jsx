@@ -6,7 +6,12 @@ import actions from '../../actions';
 
 const { userRegister } = actions;
 
-const Register = ({ history, userRegister, error }) => {
+const Register = ({ history, userRegister, error, autenticado }) => {
+  //redireccionar si el user esta autenticado
+  if (autenticado) {
+    history.push('/profile');
+  }
+
   const [nombreUsuario, setNombreUsuario] = useState('');
   const [pass, setPass] = useState('');
   const [pass2, setPass2] = useState('');
@@ -72,6 +77,7 @@ const Register = ({ history, userRegister, error }) => {
 
 const mapStateToProps = state => {
   return {
+    autenticado: state.auth.autenticado,
     loading: state.register.loading,
     error: state.register.error
   };

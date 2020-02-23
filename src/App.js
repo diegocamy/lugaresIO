@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import { Navbar } from './layout/Navbar';
+import Navbar from './layout/Navbar';
 import Lugares from './lugares/containers/Lugares';
 import Login from './lugares/containers/Login';
 import Register from './lugares/containers/Register';

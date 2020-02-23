@@ -1,7 +1,38 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
-export const Navbar = () => {
+import actions from '../actions';
+
+const { logout } = actions;
+
+const Navbar = props => {
+  const noLogeado = (
+    <ul className='navbar-nav ml-auto'>
+      <Link to='/register'>
+        <button className='btn btn-dark m-1'>Registrarse</button>
+      </Link>
+
+      <Link to='/login'>
+        <button className='btn btn-light m-1'>Ingresar</button>
+      </Link>
+    </ul>
+  );
+
+  const logeado = (
+    <ul className='navbar-nav ml-auto'>
+      <li className='nav-item my-auto mx-1 text-white'>{props.user}</li>
+
+      <button
+        className='btn btn-light m-1'
+        onClick={() => props.logout(props.history)}
+      >
+        Salir
+      </button>
+    </ul>
+  );
+
   return (
     <nav className='navbar navbar-expand-lg navbar-dark bg-primary'>
       <Link className='navbar-brand' to='/'>
@@ -37,16 +68,17 @@ export const Navbar = () => {
             </Link>
           </li>
         </ul>
-        <ul className='navbar-nav ml-auto'>
-          <Link to='/register'>
-            <button className='btn btn-dark m-1'>Registrarse</button>
-          </Link>
-
-          <Link to='/login'>
-            <button className='btn btn-light m-1'>Ingresar</button>
-          </Link>
-        </ul>
+        {props.autenticado ? logeado : noLogeado}
       </div>
     </nav>
   );
 };
+
+const mapStateToProps = state => {
+  return {
+    autenticado: state.auth.autenticado,
+    user: state.auth.user.nombreUsuario
+  };
+};
+
+export default withRouter(connect(mapStateToProps, { logout })(Navbar));
