@@ -22,7 +22,7 @@ const Home = () => {
         <Popup>
           <div className='container text-center'>
             <h6>Nombre</h6>
-            <Link to='lugar/2'>
+            <Link to={'lugar/2'}>
               <button className='btn btn-sm btn-dark'>Ver lugar</button>
             </Link>
           </div>
