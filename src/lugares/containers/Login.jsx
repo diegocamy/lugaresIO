@@ -1,27 +1,45 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
-const Login = () => {
-  const [email, setEmail] = useState('');
-  const [pass, setPass] = useState('');
+import actions from '../../actions';
+
+const { login } = actions;
+
+const Login = props => {
+  //si el usuario esta autenticado es redireccionado a su perfil
+  if (props.autenticado) {
+    props.history.push('/profile');
+  }
+
+  const [nombreUsuario, setNombreUsuario] = useState('');
+  const [password, setPassword] = useState('');
 
   const submitLogin = e => {
     e.preventDefault();
-    const loginInfo = { email, pass };
-    console.log(loginInfo);
+    const loginInfo = { nombreUsuario, password };
+    props.login(loginInfo, props.history);
   };
+
+  const alertMessage = (
+    <div className='alert alert-danger' role='alert'>
+      {props.error}
+    </div>
+  );
 
   return (
     <div className='container mt-4'>
+      {props.error && alertMessage}
       <form onSubmit={submitLogin}>
         <div className='form-group'>
-          <label htmlFor='exampleInputEmail1'>Email</label>
+          <label htmlFor='exampleInputnombreUsuario1'>Nombre de Usuario</label>
           <input
-            type='email'
+            type='nombreUsuario'
             className='form-control'
-            id='exampleInputEmail1'
-            aria-describedby='emailHelp'
-            value={email}
-            onChange={e => setEmail(e.target.value.toLowerCase())}
+            id='exampleInputnombreUsuario1'
+            aria-describedby='nombreUsuarioHelp'
+            value={nombreUsuario}
+            onChange={e => setNombreUsuario(e.target.value.toLowerCase())}
           />
         </div>
         <div className='form-group'>
@@ -30,8 +48,8 @@ const Login = () => {
             type='password'
             className='form-control'
             id='exampleInputPassword1'
-            value={pass}
-            onChange={e => setPass(e.target.value)}
+            value={password}
+            onChange={e => setPassword(e.target.value)}
           />
         </div>
         <button className='btn btn-primary'>Ingresar</button>
@@ -40,4 +58,11 @@ const Login = () => {
   );
 };
 
-export default Login;
+const mapStateToProps = state => {
+  return {
+    autenticado: state.auth.autenticado,
+    error: state.auth.error
+  };
+};
+
+export default withRouter(connect(mapStateToProps, { login })(Login));

@@ -20,7 +20,8 @@ export default function registerReducer(state = initialState, action) {
     case USER_REGISTER_SUCCESS:
       return {
         ...state,
-        loading: false
+        loading: false,
+        error: ''
       };
     case USER_REGISTER_ERROR:
       return {

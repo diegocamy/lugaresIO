@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { userRegister } from '../../actions';
+import actions from '../../actions';
 
-const Register = ({ history, userRegister, error, loading }) => {
+const { userRegister } = actions;
+
+const Register = ({ history, userRegister, error }) => {
   const [nombreUsuario, setNombreUsuario] = useState('');
   const [pass, setPass] = useState('');
   const [pass2, setPass2] = useState('');

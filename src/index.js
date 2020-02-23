@@ -3,9 +3,12 @@ import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
+import jwt from 'jsonwebtoken';
 
 import rootReducer from './reducers';
 import App from './App';
+import { setAuthorizationToken } from './utils/utils';
+import { guardarUserEnStore } from './actions/userLogin';
 
 const store = createStore(
   rootReducer,
@@ -16,6 +19,11 @@ const store = createStore(
       : f => f
   )
 );
+
+if (localStorage.token) {
+  setAuthorizationToken(localStorage.token);
+  store.dispatch(guardarUserEnStore(jwt.decode(localStorage.getItem('token'))));
+}
 
 ReactDOM.render(
   <Provider store={store}>
