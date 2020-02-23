@@ -12,6 +12,12 @@ const Profile = props => {
   //cargar datos del perfil
   const userId = props.match.params.userId;
 
+  //si el id del usuario que se busca es igual al id del usuario logeado
+  //redireccionar a dashboard
+  if (userId === props.userLogeado) {
+    props.history.push('/dashboard');
+  }
+
   useEffect(() => {
     props.fetchProfile(userId);
   }, []);
@@ -20,8 +26,6 @@ const Profile = props => {
     lat: -30.90534,
     lng: -55.55076
   };
-
-  console.log(props.error);
 
   if (props.cargando) {
     return (
@@ -102,7 +106,8 @@ const mapStateToProps = state => {
   return {
     user: state.userProfile.user,
     error: state.userProfile.error,
-    cargando: state.userProfile.cargando
+    cargando: state.userProfile.cargando,
+    userLogeado: state.auth.user.id
   };
 };
 
