@@ -39,7 +39,7 @@ export const login = ({ nombreUsuario, password }, history) => dispatch => {
       //decodificar token y guardarlo en store
       dispatch(guardarUserEnStore(jwt.decode(token)));
       //redireccionar a la pagina de perfil
-      history.push('/profile');
+      history.push('/dashboard');
     })
     .catch(err => {
       if (err) dispatch(setErrorLogin(err.response.data.error));

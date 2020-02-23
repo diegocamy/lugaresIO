@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Navbar from './layout/Navbar';
+import Dashboard from './lugares/containers/Dashboard';
 import Lugares from './lugares/containers/Lugares';
 import Login from './lugares/containers/Login';
 import Register from './lugares/containers/Register';
@@ -27,7 +28,8 @@ function App() {
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Register} />
           <Route exact path='/registrado' component={Registrado} />
-          <Route exact path='/profile' component={Profile} />
+          <Route exact path='/dashboard' component={Dashboard} />
+          <Route exact path='/profile/:userId' component={Profile} />
           <Route exact path='/edit-profile' component={EditarPerfil} />
           <Route exact path='/add-place' component={NuevoLugar} />
           <Route component={NotFound} />

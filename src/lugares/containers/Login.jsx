@@ -9,7 +9,7 @@ const { login } = actions;
 const Login = props => {
   //si el usuario esta autenticado es redireccionado a su perfil
   if (props.autenticado) {
-    props.history.push('/profile');
+    props.history.push('/dashboard');
   }
 
   const [nombreUsuario, setNombreUsuario] = useState('');

@@ -9,7 +9,7 @@ const { userRegister } = actions;
 const Register = ({ history, userRegister, error, autenticado }) => {
   //redireccionar si el user esta autenticado
   if (autenticado) {
-    history.push('/profile');
+    history.push('/dashboard');
   }
 
   const [nombreUsuario, setNombreUsuario] = useState('');
