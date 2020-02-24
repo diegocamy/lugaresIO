@@ -7,13 +7,13 @@ import jwt from 'jsonwebtoken';
 
 import rootReducer from './reducers';
 import App from './App';
-import { setAuthorizationToken } from './utils/utils';
-import { guardarUserEnStore } from './actions/userLogin';
+import { setAuthorizationToken, checkearSiTokenEsValido } from './utils/utils';
+import { guardarUserEnStore, jwtExpiredLogout } from './actions/userLogin';
 
 const store = createStore(
   rootReducer,
   compose(
-    applyMiddleware(thunk),
+    applyMiddleware(checkearSiTokenEsValido, thunk),
     window.__REDUX_DEVTOOLS_EXTENSION__
       ? window.__REDUX_DEVTOOLS_EXTENSION__()
       : f => f

@@ -52,18 +52,20 @@ const Navbar = props => {
 
       <div className='collapse navbar-collapse' id='navbarColor01'>
         <ul className='navbar-nav mr-auto'>
+          {props.autenticado ? (
+            <li className='nav-item'>
+              <Link className='nav-link' to='/dashboard'>
+                Perfil
+              </Link>
+            </li>
+          ) : null}
           <li className='nav-item'>
             <Link className='nav-link' to='/lugares'>
               Lugares
             </Link>
           </li>
           <li className='nav-item'>
-            <Link className='nav-link' to='/profile'>
-              Perfil
-            </Link>
-          </li>
-          <li className='nav-item'>
-            <Link className='nav-link' to='/users'>
+            <Link className='nav-link' to='/'>
               Usuarios
             </Link>
           </li>

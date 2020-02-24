@@ -1,30 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-const EditarPerfil = () => {
-  const [nombre, setNombre] = useState('');
-  const [mensaje, setMensaje] = useState('');
-  const [ciudad, setCiudad] = useState('');
-  const [intereses, setIntereses] = useState('');
-  const [foto, setFoto] = useState('');
-  const [error, setError] = useState('');
+import actions from '../../actions';
+import Spinner from '../components/Spinner';
+
+const { editarPerfil } = actions;
+
+const EditarPerfil = props => {
+  useEffect(() => {
+    if (!props.autenticado) {
+      props.history.push('/login');
+    }
+  }, [props.autenticado]);
+
+  const {
+    nombre: nombreUser,
+    pais: paisUser,
+    ciudad: ciudadUser,
+    foto: fotoUser
+  } = props.datosUsuario;
+
+  const [nombre, setNombre] = useState(nombreUser || '');
+  const [pais, setPais] = useState(paisUser || '');
+  const [ciudad, setCiudad] = useState(ciudadUser || '');
+  const [foto, setFoto] = useState(fotoUser || '');
 
   const submitNewUser = e => {
     e.preventDefault();
-    const loginInfo = { nombre, mensaje, ciudad, intereses, foto };
-    if (nombre.length === 0) return setError('Debe ingresar un nombre');
-
-    console.log(loginInfo);
+    console.log(props.autenticado);
+    const data = new FormData();
+    data.append('foto', foto);
+    data.append('pais', pais);
+    data.append('ciudad', ciudad);
+    data.append('nombre', nombre);
+    props.editarPerfil(data, props.history);
   };
+
+  if (props.actualizando) {
+    return <Spinner />;
+  }
 
   const alertMessage = (
     <div className='alert alert-danger' role='alert'>
-      {error}
+      {props.error}
     </div>
   );
 
   return (
     <div className='container mt-4'>
-      {error && alertMessage}
+      {props.error && alertMessage}
       <form onSubmit={submitNewUser}>
         <div className='form-group'>
           <label htmlFor='nombre'>Nombre</label>
@@ -36,21 +61,6 @@ const EditarPerfil = () => {
             value={nombre}
             onChange={e => {
               setNombre(e.target.value);
-              setError('');
-            }}
-          />
-        </div>
-        <div className='form-group'>
-          <label htmlFor='Mensaje'>Mensaje</label>
-          <input
-            type='text'
-            className='form-control'
-            id='Mensaje'
-            aria-describedby='MensajeHelp'
-            value={mensaje}
-            onChange={e => {
-              setMensaje(e.target.value);
-              setError('');
             }}
           />
         </div>
@@ -64,21 +74,19 @@ const EditarPerfil = () => {
             value={ciudad}
             onChange={e => {
               setCiudad(e.target.value);
-              setError('');
             }}
           />
         </div>
         <div className='form-group'>
-          <label htmlFor='Intereses'>Intereses</label>
+          <label htmlFor='pais'>Pais</label>
           <input
             type='text'
             className='form-control'
-            id='Intereses'
-            aria-describedby='InteresesHelp'
-            value={intereses}
+            id='pais'
+            aria-describedby='paisHelp'
+            value={pais}
             onChange={e => {
-              setIntereses(e.target.value);
-              setError('');
+              setPais(e.target.value);
             }}
           />
         </div>
@@ -89,10 +97,8 @@ const EditarPerfil = () => {
             className='form-control'
             id='Foto'
             aria-describedby='FotoHelp'
-            value={foto}
             onChange={e => {
-              setFoto(e.target.value);
-              setError('');
+              setFoto(e.target.files[0]);
             }}
           />
         </div>
@@ -102,4 +108,15 @@ const EditarPerfil = () => {
   );
 };
 
-export default EditarPerfil;
+const mapStateToProps = state => {
+  return {
+    actualizando: state.updateUserData.actualizando,
+    autenticado: state.auth.autenticado,
+    error: state.updateUserData.error,
+    datosUsuario: state.userProfile.user
+  };
+};
+
+export default withRouter(
+  connect(mapStateToProps, { editarPerfil })(EditarPerfil)
+);

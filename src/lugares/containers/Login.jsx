@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -8,9 +8,12 @@ const { login } = actions;
 
 const Login = props => {
   //si el usuario esta autenticado es redireccionado a su perfil
-  if (props.autenticado) {
-    props.history.push('/dashboard');
-  }
+
+  useEffect(() => {
+    if (props.autenticado) {
+      props.history.push('/dashboard');
+    }
+  }, [props.autenticado]);
 
   const [nombreUsuario, setNombreUsuario] = useState('');
   const [password, setPassword] = useState('');
@@ -39,7 +42,7 @@ const Login = props => {
             id='exampleInputnombreUsuario1'
             aria-describedby='nombreUsuarioHelp'
             value={nombreUsuario}
-            onChange={e => setNombreUsuario(e.target.value.toLowerCase())}
+            onChange={e => setNombreUsuario(e.target.value)}
           />
         </div>
         <div className='form-group'>

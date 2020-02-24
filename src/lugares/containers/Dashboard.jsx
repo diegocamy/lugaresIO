@@ -1,32 +1,33 @@
 import React, { useEffect } from 'react';
-import { Map as Mapita, TileLayer, Marker, Popup } from 'react-leaflet';
+import { Marker, Popup } from 'react-leaflet';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import actions from '../../actions';
 import fotoPerfil from '../../img/profile.png';
 import LugaresSubidos from '../components/LugaresSubidos';
+import Mapa from '../components/Mapa';
+import Spinner from '../components/Spinner';
 
 const { fetchProfile } = actions;
 
 const Dashboard = props => {
   //cargar datos del user logeado
   useEffect(() => {
-    props.fetchProfile(props.idLogeado);
-  }, []);
+    if (!props.autenticado) {
+      props.history.push('/login');
+    } else {
+      props.fetchProfile(props.idLogeado);
+    }
+  }, [props.autenticado]);
 
   const latlng = {
     lat: -30.90534,
     lng: -55.55076
   };
 
+  //spinner
   if (props.cargando) {
-    return (
-      <div className='my-5 d-flex justify-content-center'>
-        <div className='spinner-border text-primary' role='status'>
-          <span className='sr-only'>Loading...</span>
-        </div>
-      </div>
-    );
+    return <Spinner />;
   }
 
   if (props.error) {
@@ -40,6 +41,7 @@ const Dashboard = props => {
     );
   }
 
+  //marcadores de los lugares subidos por el usuario
   const markers = props.lugares.map(l => {
     return (
       <Marker key={l._id} position={l.latlng}>
@@ -73,7 +75,11 @@ const Dashboard = props => {
             <h5>{props.user.nombreUsuario}</h5>
             <img
               className='rounded mx-auto img-fluid mb-4'
-              src={fotoPerfil}
+              src={
+                props.user.foto
+                  ? `http://localhost:5000/${props.user.foto}`
+                  : fotoPerfil
+              }
               alt='foto de perfil'
             />
             <h6>{props.user.nombre}</h6>
@@ -82,19 +88,7 @@ const Dashboard = props => {
           </div>
           <div className='col text-center bg-white mx-1 mb-2'>
             <h3 className='mt-2'>LUGARES COMPARTIDOS</h3>
-            <Mapita
-              className='map'
-              style={{ height: 350 }}
-              center={latlng}
-              length={4}
-              zoom={1}
-            >
-              <TileLayer
-                attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-              />
-              {markers}
-            </Mapita>
+            <Mapa zoom={1} latlng={latlng} markers={markers} />
             <LugaresSubidos lugares={props.lugares} />
           </div>
         </div>
@@ -106,6 +100,7 @@ const Dashboard = props => {
 const mapStateToProps = state => {
   return {
     idLogeado: state.auth.user.id,
+    autenticado: state.auth.autenticado,
     user: state.userProfile.user,
     error: state.userProfile.error,
     lugares: state.userProfile.lugares,

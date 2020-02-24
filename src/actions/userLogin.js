@@ -6,9 +6,7 @@ import { setAuthorizationToken } from '../utils/utils';
 
 export const guardarUserEnStore = usuario => {
   const user = {
-    id: usuario.id,
-    iat: usuario.iat,
-    nombreUsuario: usuario.nombreUsuario
+    ...usuario
   };
   return {
     type: SET_USUARIO_ACTUAL,
@@ -53,4 +51,11 @@ export const logout = history => dispatch => {
   dispatch({ type: USER_LOGOUT });
   //redireccionar a la pagina de login
   history.push('/login');
+};
+
+export const jwtExpiredLogout = () => dispatch => {
+  //eliminar token de localStorage
+  localStorage.removeItem('token');
+  //dispatch accion para eliminar user en store
+  dispatch({ type: USER_LOGOUT });
 };

@@ -1,4 +1,9 @@
-import { USER_LOGOUT, USER_LOGIN_ERROR, SET_USUARIO_ACTUAL } from '../types';
+import {
+  USER_LOGOUT,
+  USER_LOGIN_ERROR,
+  SET_USUARIO_ACTUAL,
+  TOKEN_EXPIRED
+} from '../types';
 
 const initialState = {
   user: {},
@@ -19,6 +24,13 @@ export default function loginReducer(state = initialState, action) {
       return {
         ...state,
         error: action.payload
+      };
+    case TOKEN_EXPIRED:
+      return {
+        ...state,
+        autenticado: false,
+        user: {},
+        error: 'La sesión ha caducado, vuelve a ingresar para seguir.'
       };
     case USER_LOGOUT:
       return {

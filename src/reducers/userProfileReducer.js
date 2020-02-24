@@ -2,9 +2,8 @@ import {
   FETCH_USER_INICIO,
   FETCH_USER_SUCCESS,
   FETCH_USER_ERROR,
-  FETCH_LUGARES_INICIO,
   FETCH_LUGARES_SUCCESS,
-  FETCH_LUGARES_ERROR
+  LIMPIAR_DATOS_USER
 } from '../types';
 
 const initialState = {
@@ -39,6 +38,14 @@ export default function userProfileReducer(state = initialState, action) {
         cargando: false,
         error: action.payload
       };
+    case LIMPIAR_DATOS_USER: {
+      return {
+        ...state,
+        user: {},
+        cargando: false,
+        error: ''
+      };
+    }
     default:
       return state;
   }
