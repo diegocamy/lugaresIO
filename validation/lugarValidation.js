@@ -11,7 +11,8 @@ const lugarValidation = Joi.object({
     .messages({
       'object.required': 'Debe incluir latitud y longitud'
     }),
-  usuario: Joi.string().required(),
+  idUsuario: Joi.string().required(),
+  usuario: Joi.object(),
   foto: Joi.required().messages({
     'any.empty': 'Debe cargar una foto'
   }),

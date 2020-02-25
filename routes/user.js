@@ -187,14 +187,30 @@ route.patch('/update', authValidate, upload.single('foto'), (req, res) => {
   )
     .then(user => {
       if (user) {
-        return res.json({
+        //JWT payload actualizado con la foto
+        const payload = {
           id: user._id,
           nombreUsuario: user.nombreUsuario,
-          nombre: user.nombre,
-          ciudad: user.ciudad,
-          pais: user.pais,
           foto: user.foto
-        });
+        };
+        //JWT
+        jwt.sign(
+          payload,
+          process.env.LLAVE,
+          {
+            expiresIn: '1h'
+          },
+          //devolver token actualizado
+          (err, token) => {
+            if (err) {
+              return res
+                .status(400)
+                .json({ error: 'Usuario o contraseña incorrecta' });
+            }
+
+            return res.json({ token });
+          }
+        );
       } else {
         return res.status(404).json({ error: 'User not found.' });
       }

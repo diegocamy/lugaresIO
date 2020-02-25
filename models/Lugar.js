@@ -7,9 +7,21 @@ const lugarSchema = new Schema(
       type: String,
       required: true
     },
-    usuario: {
+    idUsuario: {
       type: Schema.Types.ObjectId,
       ref: 'users'
+    },
+    usuario: {
+      id: {
+        type: Schema.Types.ObjectId,
+        ref: 'users'
+      },
+      nombreUsuario: {
+        type: String
+      },
+      foto: {
+        type: String
+      }
     },
     latlng: {
       lat: {

@@ -69,7 +69,7 @@ route.get('/:id', (req, res) => {
 // publica
 
 route.get('/user/:userId', (req, res) => {
-  Lugar.find({ usuario: req.params.userId })
+  Lugar.find({ idUsuario: req.params.userId })
     .then(lugares => res.json(lugares))
     .catch(err => {
       return res.status(400).json({ error: 'No hay lugares para mostrar' });
@@ -90,7 +90,12 @@ route.post('/', authValidate, upload.single('fotoLugar'), (req, res) => {
       lng: req.body.lng
     },
     nombre: req.body.nombre,
-    usuario: req.user.id,
+    idUsuario: req.user.id,
+    usuario: {
+      id: req.user.id,
+      nombreUsuario: req.user.nombreUsuario,
+      foto: req.user.foto
+    },
     foto: req.file.path.replace(`\\`, '/'),
     descripcion: req.body.descripcion || ''
   };
@@ -157,8 +162,6 @@ route.post('/comment/:id', authValidate, (req, res) => {
         foto: req.user.foto,
         comentario: req.body.comentario
       };
-
-      console.log(comentarioIngresado);
 
       //si el comentario no tiene texto, devolver un error
       if (comentarioIngresado.comentario.length === 0)
