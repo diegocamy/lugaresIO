@@ -3,6 +3,7 @@ import { login, logout } from './userLogin';
 import { fetchProfile } from './fetchProfile';
 import { editarPerfil } from './editarPerfil';
 import { compartirLugar } from './compartirLugar';
+import { fetchLugar } from './fetchLugar';
 
 const actions = {
   userRegister,
@@ -10,7 +11,8 @@ const actions = {
   logout,
   fetchProfile,
   editarPerfil,
-  compartirLugar
+  compartirLugar,
+  fetchLugar
 };
 
 export default actions;
