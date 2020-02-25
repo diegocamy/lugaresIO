@@ -19,6 +19,9 @@ const userSchema = new Schema(
     },
     pais: {
       type: String
+    },
+    foto: {
+      type: String
     }
   },
   { timestamps: true }

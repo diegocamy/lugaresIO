@@ -65,7 +65,7 @@ route.get('/:id', (req, res) => {
 });
 
 // GET /api/places/user/:userI d
-// obtener un lugar
+// obtener todos los lugares compartidos por un user
 // publica
 
 route.get('/user/:userId', (req, res) => {
@@ -153,8 +153,12 @@ route.post('/comment/:id', authValidate, (req, res) => {
       //datos del comentario ingresado
       const comentarioIngresado = {
         usuario: req.user.id,
+        nombreUsuario: req.user.nombreUsuario,
+        foto: req.user.foto,
         comentario: req.body.comentario
       };
+
+      console.log(comentarioIngresado);
 
       //si el comentario no tiene texto, devolver un error
       if (comentarioIngresado.comentario.length === 0)

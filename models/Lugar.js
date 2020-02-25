@@ -40,6 +40,12 @@ const lugarSchema = new Schema(
           type: Schema.Types.ObjectId,
           ref: 'users'
         },
+        nombreUsuario: {
+          type: String
+        },
+        foto: {
+          type: String
+        },
         comentario: {
           type: String
         }

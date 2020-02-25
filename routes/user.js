@@ -4,6 +4,35 @@ const route = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, './uploads');
+  },
+  filename: function(req, file, cb) {
+    cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname);
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    //aceptar foto
+    cb(null, true);
+  } else {
+    //rechazar foto
+    cb(null, false);
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 1024 * 1024 * 5
+  },
+  fileFilter
+});
+
 //User mongoose schema
 const User = require('../models/User');
 
@@ -100,7 +129,8 @@ route.post('/login', (req, res) => {
             //JWT payload
             const payload = {
               id: usuario._id,
-              nombreUsuario: usuario.nombreUsuario
+              nombreUsuario: usuario.nombreUsuario,
+              foto: usuario.foto
             };
             //JWT
             jwt.sign(
@@ -132,26 +162,25 @@ route.post('/login', (req, res) => {
   );
 });
 
-// PATCH /api/users/
+// PATCH /api/users/update
 // actualizar info del user
 // privada
 
-route.patch('/update', authValidate, (req, res) => {
+route.patch('/update', authValidate, upload.single('foto'), (req, res) => {
   //nuevos datos
   const datosIngresados = {
     nombre: req.body.nombre || '',
     ciudad: req.body.ciudad || '',
     pais: req.body.pais || ''
   };
+  if (req.file) datosIngresados.foto = req.file.path.replace(`\\`, '/');
 
   //actualizar los datos
   User.findOneAndUpdate(
     { _id: req.user.id },
     {
       $set: {
-        ciudad: datosIngresados.ciudad,
-        nombre: datosIngresados.nombre,
-        pais: datosIngresados.pais
+        ...datosIngresados
       }
     },
     { new: true, useFindAndModify: false }
@@ -163,7 +192,8 @@ route.patch('/update', authValidate, (req, res) => {
           nombreUsuario: user.nombreUsuario,
           nombre: user.nombre,
           ciudad: user.ciudad,
-          pais: user.pais
+          pais: user.pais,
+          foto: user.foto
         });
       } else {
         return res.status(404).json({ error: 'User not found.' });
@@ -205,6 +235,7 @@ route.get('/', (req, res) => {
 
 route.get('/:user_id', (req, res) => {
   User.findOne({ _id: req.params.user_id })
+    .select('-password')
     .then(user => {
       if (!user) {
         res.status(404).json({ error: 'Usuario no encontrado.' });
