@@ -1,11 +1,11 @@
 import React from 'react';
 import { Map as Mapita, TileLayer } from 'react-leaflet';
 
-const Mapa = ({ zoom, latlng, markers }) => {
+const Mapa = ({ zoom, latlng, markers, style }) => {
   return (
     <Mapita
       className='map'
-      style={{ height: 350 }}
+      style={style ? style : { height: 350 }}
       center={latlng}
       length={4}
       zoom={zoom}

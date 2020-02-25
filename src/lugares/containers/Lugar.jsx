@@ -29,6 +29,28 @@ const Lugar = props => {
     </div>
   );
 
+  const formComentario = (
+    <div className='col'>
+      <h3 className='my-2'>Comentarios</h3>
+      {props.errorComentario && alertMessage}
+      <form
+        className='form-row justify-content-center'
+        onSubmit={enviarComentario}
+      >
+        <div className='col-md-10'>
+          <textarea
+            className='form-control my-2'
+            id='exampleFormControlTextarea1'
+            rows='2'
+            value={comentario}
+            onChange={e => setComentario(e.target.value)}
+          />
+        </div>
+        <button className='btn btn-dark my-2'>Comentar</button>
+      </form>
+    </div>
+  );
+
   if (props.cargando || props.cargandoComentario) {
     return <Spinner />;
   }
@@ -53,25 +75,13 @@ const Lugar = props => {
             </div>
           </div>
           <div className='row'>
-            <div className='col'>
-              <h3 className='my-2'>Comentarios</h3>
-              {props.errorComentario && alertMessage}
-              <form
-                className='form-row justify-content-center'
-                onSubmit={enviarComentario}
-              >
-                <div className='col-md-10'>
-                  <textarea
-                    className='form-control my-2'
-                    id='exampleFormControlTextarea1'
-                    rows='2'
-                    value={comentario}
-                    onChange={e => setComentario(e.target.value)}
-                  />
-                </div>
-                <button className='btn btn-dark my-2'>Comentar</button>
-              </form>
-            </div>
+            {props.autenticado ? (
+              formComentario
+            ) : (
+              <div className='text-center my-3 mx-auto'>
+                <h3>Debes iniciar sesión para comentar</h3>
+              </div>
+            )}
             <Comentarios comentarios={props.lugar.comentarios} />
           </div>
         </div>
@@ -84,6 +94,7 @@ const Lugar = props => {
 
 const mapStateToProps = state => {
   return {
+    autenticado: state.auth.autenticado,
     lugar: state.lugar.lugar,
     error: state.lugar.error,
     cargando: state.lugar.cargando,

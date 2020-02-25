@@ -6,6 +6,7 @@ import actualizarDatosUserReducer from './actualizarDatosUserReducer';
 import compartirLugarReducer from './compartirLugarReducer';
 import lugarReducer from './lugarReducer';
 import comentarLugarReducer from './comentarLugarReducer';
+import fetchTodosLosLugaresReducer from './fetchTodosLosLugaresReducer';
 
 const rootReducer = combineReducers({
   register: registerReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   updateUserData: actualizarDatosUserReducer,
   compartirLugar: compartirLugarReducer,
   lugar: lugarReducer,
-  comentario: comentarLugarReducer
+  comentario: comentarLugarReducer,
+  todosLosLugares: fetchTodosLosLugaresReducer
 });
 
 export default rootReducer;
