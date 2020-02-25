@@ -10,11 +10,12 @@ const LugaresSubidos = ({ lugares }) => {
             <div className='card'>
               <img
                 src={`http://localhost:5000/${l.foto}`}
+                style={{ height: 250 }}
                 className='card-img-top'
                 alt={l.nombre}
               />
               <div className='card-body'>
-                <h5 className='card-title'>{l.nombre}</h5>
+                <h6 className='card-title'>{l.nombre}</h6>
                 <p className='card-text'>
                   <Link to={`/lugar/${l._id}`}>
                     <button className='btn btn-dark'>Ver Lugar</button>
