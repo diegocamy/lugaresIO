@@ -5,6 +5,7 @@ import userProfileReducer from './userProfileReducer';
 import actualizarDatosUserReducer from './actualizarDatosUserReducer';
 import compartirLugarReducer from './compartirLugarReducer';
 import lugarReducer from './lugarReducer';
+import comentarLugarReducer from './comentarLugarReducer';
 
 const rootReducer = combineReducers({
   register: registerReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   userProfile: userProfileReducer,
   updateUserData: actualizarDatosUserReducer,
   compartirLugar: compartirLugarReducer,
-  lugar: lugarReducer
+  lugar: lugarReducer,
+  comentario: comentarLugarReducer
 });
 
 export default rootReducer;

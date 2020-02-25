@@ -4,6 +4,7 @@ import { fetchProfile } from './fetchProfile';
 import { editarPerfil } from './editarPerfil';
 import { compartirLugar } from './compartirLugar';
 import { fetchLugar } from './fetchLugar';
+import { comentarLugar } from './comentarLugar';
 
 const actions = {
   userRegister,
@@ -12,7 +13,8 @@ const actions = {
   fetchProfile,
   editarPerfil,
   compartirLugar,
-  fetchLugar
+  fetchLugar,
+  comentarLugar
 };
 
 export default actions;
