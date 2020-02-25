@@ -13,12 +13,16 @@ const ListaLugares = ({ lugares }) => {
       <div className='row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-center'>
         {lugares.map(lugar => {
           return (
-            <Link to='/lugar/2'>
+            <Link
+              key={lugar._id}
+              to={`/lugar/${lugar._id}`}
+              style={{ textDecoration: 'none' }}
+            >
               <Lugar
-                key={lugar.id}
+                key={lugar._id}
                 nombre={lugar.nombre}
-                foto={lugar.foto}
-                likes={lugar.likes}
+                foto={`http://localhost:5000/${lugar.foto}`}
+                likes={lugar.likes.length}
                 descripcion={lugar.descripcion}
               />
             </Link>

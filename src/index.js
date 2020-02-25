@@ -8,7 +8,7 @@ import jwt from 'jsonwebtoken';
 import rootReducer from './reducers';
 import App from './App';
 import { setAuthorizationToken, checkearSiTokenEsValido } from './utils/utils';
-import { guardarUserEnStore, jwtExpiredLogout } from './actions/userLogin';
+import { guardarUserEnStore } from './actions/userLogin';
 
 const store = createStore(
   rootReducer,

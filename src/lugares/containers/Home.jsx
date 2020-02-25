@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import Mapa from '../components/Mapa';
 import Spinner from '../components/Spinner';
 
+import './Home.css';
+
 import actions from '../../actions';
 const { fetchTodosLosLugares } = actions;
 
@@ -22,9 +24,15 @@ const Home = props => {
   const markers = props.lugares.map(l => {
     return (
       <Marker position={l.latlng} key={l._id}>
-        <Popup>
-          <div className='container text-center'>
+        <Popup className='popup-style'>
+          <div className=' text-center'>
             <h6>{l.nombre}</h6>
+            <img
+              src={`http://localhost:5000/${l.foto}`}
+              alt=''
+              className='img-fluid img-thumbnail mx-auto my-2'
+              style={{ height: '150px', width: '150px' }}
+            />
             <Link to={`/lugar/${l._id}`}>
               <button className='btn btn-sm btn-dark'>Ver lugar</button>
             </Link>

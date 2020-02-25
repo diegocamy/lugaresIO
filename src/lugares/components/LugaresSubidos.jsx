@@ -15,7 +15,7 @@ const LugaresSubidos = ({ lugares }) => {
                 alt={l.nombre}
               />
               <div className='card-body'>
-                <h6 className='card-title'>{l.nombre}</h6>
+                <h6 className='card-title text-truncate'>{l.nombre}</h6>
                 <p className='card-text'>
                   <Link to={`/lugar/${l._id}`}>
                     <button className='btn btn-dark'>Ver Lugar</button>

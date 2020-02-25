@@ -3,7 +3,7 @@ import React from 'react';
 const Lugar = ({ nombre, foto, likes }) => {
   return (
     <div className='col-md'>
-      <div className='card border-info mb-3 mx-auto mt-3'>
+      <div className='card mb-3 mx-auto mt-3'>
         <img
           src={foto}
           className='card-img-top'
@@ -14,7 +14,6 @@ const Lugar = ({ nombre, foto, likes }) => {
           <h6 className='card-title text-dark text-truncate'>
             <strong>{nombre}</strong>
           </h6>
-          <p className='card-title text-dark'>User</p>
           <p className='card-text text-right'>
             <small className='text-dark'>{likes} Likes</small>
           </p>
