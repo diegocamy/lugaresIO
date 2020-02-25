@@ -5,6 +5,7 @@ import { editarPerfil } from './editarPerfil';
 import { compartirLugar } from './compartirLugar';
 import { fetchLugar } from './fetchLugar';
 import { comentarLugar } from './comentarLugar';
+import { likearLugar } from './likearLugar';
 import { fetchTodosLosLugares } from './fetchTodosLosLugares';
 
 const actions = {
@@ -16,7 +17,8 @@ const actions = {
   compartirLugar,
   fetchLugar,
   comentarLugar,
-  fetchTodosLosLugares
+  fetchTodosLosLugares,
+  likearLugar
 };
 
 export default actions;

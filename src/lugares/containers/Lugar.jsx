@@ -8,7 +8,7 @@ import Spinner from '../components/Spinner';
 import actions from '../../actions';
 import Comentarios from '../components/Comentarios';
 import foto from '../../img/profile.png';
-const { fetchLugar, comentarLugar } = actions;
+const { fetchLugar, comentarLugar, likearLugar } = actions;
 
 const Lugar = props => {
   const [comentario, setComentario] = useState('');
@@ -25,12 +25,21 @@ const Lugar = props => {
     setComentario('');
   };
 
+  const likearLugar = e => {
+    props.likearLugar(props.match.params.id);
+  };
+
+  //VERIFICAR SI EL USER HA DADO LIKE AL LUGAR
+  const id = props.idUsuario;
+  const haLikeado = props.lugar.latlng && props.lugar.likes.includes(id);
+
   const alertMessage = (
     <div className='alert alert-danger' role='alert'>
       {props.errorComentario}
     </div>
   );
 
+  //FORM PARA ENVIAR COMENTARIOS
   const formComentario = (
     <div className='col'>
       <h3 className='my-2'>Comentarios</h3>
@@ -104,11 +113,21 @@ const Lugar = props => {
           </div>
           <div className='col-md-6 mx-auto'>
             <div className='mx-2 my-2 h5'>
-              115 <i class='fas fa-heart text-danger'></i>
+              {props.lugar.likes.length}{' '}
+              <i className='fas fa-heart text-danger'></i>
             </div>
+            {/* ESCONDER O MOSTRAR BOTON DE ME GUSTA */}
             {props.autenticado && (
-              <button className='btn btn-danger'>
-                <i className='far fa-heart'></i> Me gusta
+              <button
+                className={
+                  haLikeado ? 'btn btn-outline-danger' : 'btn btn-danger'
+                }
+                onClick={likearLugar}
+              >
+                <i
+                  className={haLikeado ? 'fas fa-heart-broken' : 'fas fa-heart'}
+                ></i>{' '}
+                {haLikeado ? 'Ya no me gusta' : 'Me gusta'}
               </button>
             )}
           </div>
@@ -133,12 +152,18 @@ const Lugar = props => {
 const mapStateToProps = state => {
   return {
     autenticado: state.auth.autenticado,
+    idUsuario: state.auth.user.id,
     lugar: state.lugar.lugar,
     error: state.lugar.error,
     cargando: state.lugar.cargando,
     cargandoComentario: state.comentario.cargando,
-    errorComentario: state.comentario.error
+    errorComentario: state.comentario.error,
+    cargandoLike: state.like.cargando
   };
 };
 
-export default connect(mapStateToProps, { fetchLugar, comentarLugar })(Lugar);
+export default connect(mapStateToProps, {
+  fetchLugar,
+  comentarLugar,
+  likearLugar
+})(Lugar);

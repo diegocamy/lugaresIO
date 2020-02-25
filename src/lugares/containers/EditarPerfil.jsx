@@ -41,15 +41,15 @@ const EditarPerfil = props => {
     return <Spinner />;
   }
 
-  // const alertMessage = (
-  //   <div className='alert alert-danger' role='alert'>
-  //     {props.error}
-  //   </div>
-  // );
+  const alertMessage = (
+    <div className='alert alert-danger' role='alert'>
+      {props.error}
+    </div>
+  );
 
   return (
     <div className='container mt-4'>
-      {/* {props.error && alertMessage} */}
+      {props.error && alertMessage}
       <form onSubmit={submitNewUser}>
         <div className='form-group'>
           <label htmlFor='nombre'>Nombre</label>

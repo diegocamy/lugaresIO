@@ -10,22 +10,20 @@ const ListaLugares = ({ lugares }) => {
 
   return (
     <div className='container'>
-      <div className='row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-center'>
+      <div className='row'>
         {lugares.map(lugar => {
           return (
-            <Link
+            <Lugar
               key={lugar._id}
-              to={`/lugar/${lugar._id}`}
-              style={{ textDecoration: 'none' }}
-            >
-              <Lugar
-                key={lugar._id}
-                nombre={lugar.nombre}
-                foto={`http://localhost:5000/${lugar.foto}`}
-                likes={lugar.likes.length}
-                descripcion={lugar.descripcion}
-              />
-            </Link>
+              id={lugar._id}
+              idUsuario={lugar.usuario.id}
+              subidoPor={lugar.usuario.nombreUsuario}
+              // comentarios={lugar.comentarios.length}
+              nombre={lugar.nombre}
+              foto={`http://localhost:5000/${lugar.foto}`}
+              likes={lugar.likes.length}
+              descripcion={lugar.descripcion}
+            />
           );
         })}
       </div>
