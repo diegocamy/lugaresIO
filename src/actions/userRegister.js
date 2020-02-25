@@ -18,7 +18,7 @@ export const userRegister = (usuarioNuevo, history) => dispatch => {
       if (res.data.error) {
         dispatch(registerError(res.data.error));
       } else {
-        dispatch(registerSuccess);
+        dispatch(registerSuccess());
         history.push('/registrado');
       }
     })
