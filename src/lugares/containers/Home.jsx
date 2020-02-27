@@ -12,9 +12,10 @@ import actions from '../../actions';
 const { fetchTodosLosLugares } = actions;
 
 const Home = props => {
+  const { fetchTodosLosLugares } = props;
   useEffect(() => {
-    props.fetchTodosLosLugares();
-  }, []);
+    fetchTodosLosLugares();
+  }, [fetchTodosLosLugares]);
 
   const latlng = {
     lat: 10.90534,
@@ -47,7 +48,7 @@ const Home = props => {
   }
 
   return (
-    <div style={{ height: '91.5%' }}>
+    <div style={{ height: '90%' }}>
       <Mapa
         zoom={3}
         latlng={latlng}

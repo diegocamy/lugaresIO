@@ -14,7 +14,7 @@ const NuevoLugar = props => {
     if (!props.autenticado) {
       props.history.push('/login');
     }
-  }, [props.autenticado]);
+  }, [props.autenticado, props.history]);
 
   const [hasLocation, setHasLocation] = useState(true);
   const [latlng, setLatlng] = useState({ lat: -30.90534, lng: -55.55076 });

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import Spinner from '../components/Spinner';
@@ -8,9 +8,10 @@ import actions from '../../actions';
 const { fetchTodosLosLugares } = actions;
 
 const Lugares = props => {
+  const { fetchTodosLosLugares } = props;
   useEffect(() => {
-    props.fetchTodosLosLugares();
-  }, []);
+    fetchTodosLosLugares();
+  }, [fetchTodosLosLugares]);
 
   if (props.cargando) {
     return <Spinner />;

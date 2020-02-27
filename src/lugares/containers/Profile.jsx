@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
-import { Map as Mapita, TileLayer } from 'react-leaflet';
+import { Marker, Popup } from 'react-leaflet';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import actions from '../../actions';
 import fotoPerfil from '../../img/profile.png';
+import Spinner from '../components/Spinner';
+import Mapa from '../components/Mapa';
+import LugaresSubidos from '../components/LugaresSubidos';
 
 const { fetchProfile } = actions;
 
@@ -18,9 +21,11 @@ const Profile = props => {
     props.history.push('/dashboard');
   }
 
+  const { fetchProfile } = props;
+
   useEffect(() => {
-    props.fetchProfile(userId);
-  }, []);
+    fetchProfile(userId);
+  }, [fetchProfile, userId]);
 
   const latlng = {
     lat: -30.90534,
@@ -28,13 +33,7 @@ const Profile = props => {
   };
 
   if (props.cargando) {
-    return (
-      <div className='my-5 d-flex justify-content-center'>
-        <div className='spinner-border text-primary' role='status'>
-          <span className='sr-only'>Loading...</span>
-        </div>
-      </div>
-    );
+    return <Spinner />;
   }
 
   if (props.error) {
@@ -47,6 +46,22 @@ const Profile = props => {
       </div>
     );
   }
+
+  //marcadores de los lugares subidos por el usuario
+  const markers = props.lugares.map(l => {
+    return (
+      <Marker key={l._id} position={l.latlng}>
+        <Popup>
+          <div className='container text-center'>
+            <h6>{l.nombre}</h6>
+            <Link to={`/lugar/${l._id}`}>
+              <button className='btn btn-sm btn-dark'>Ver lugar</button>
+            </Link>
+          </div>
+        </Popup>
+      </Marker>
+    );
+  });
 
   return (
     <div className='bg-light pb-4'>
@@ -61,7 +76,11 @@ const Profile = props => {
             <h5>{props.user.nombreUsuario}</h5>
             <img
               className='rounded mx-auto img-fluid mb-4'
-              src={fotoPerfil}
+              src={
+                props.user.foto
+                  ? `http://localhost:5000/${props.user.foto}`
+                  : fotoPerfil
+              }
               alt='foto de perfil'
             />
             <h6>{props.user.nombre}</h6>
@@ -70,31 +89,8 @@ const Profile = props => {
           </div>
           <div className='col text-center bg-white mx-1 mb-2'>
             <h3 className='mt-2'>LUGARES COMPARTIDOS</h3>
-            <Mapita
-              className='map'
-              style={{ height: 350 }}
-              center={latlng}
-              length={4}
-              zoom={13}
-            >
-              <TileLayer
-                attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-              />
-            </Mapita>
-            <div className='row row-cols-1 row-cols-md-2 row-cols-lg-3 mt-4'>
-              <div className='col mb-4'>
-                <div className='card'>
-                  <img src='...' className='card-img-top' alt='...' />
-                  <div className='card-body'>
-                    <h5 className='card-title'>Card title</h5>
-                    <p className='card-text'>
-                      <button className='btn btn-dark'>Ver Lugar</button>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Mapa zoom={1} latlng={latlng} markers={markers} />
+            <LugaresSubidos lugares={props.lugares} />
           </div>
         </div>
       </div>
@@ -106,6 +102,7 @@ const mapStateToProps = state => {
   return {
     user: state.userProfile.user,
     error: state.userProfile.error,
+    lugares: state.userProfile.lugares,
     cargando: state.userProfile.cargando,
     userLogeado: state.auth.user.id
   };

@@ -8,6 +8,7 @@ import lugarReducer from './lugarReducer';
 import comentarLugarReducer from './comentarLugarReducer';
 import fetchTodosLosLugaresReducer from './fetchTodosLosLugaresReducer';
 import likearLugarReducer from './likearLugarReducer';
+import eliminarPerfilReducer from './eliminarPerfilReducer';
 
 const rootReducer = combineReducers({
   register: registerReducer,
@@ -18,7 +19,9 @@ const rootReducer = combineReducers({
   lugar: lugarReducer,
   comentario: comentarLugarReducer,
   todosLosLugares: fetchTodosLosLugaresReducer,
-  like: likearLugarReducer
+  like: likearLugarReducer,
+  borrarUser: eliminarPerfilReducer,
+  borrarLugar: eliminarPerfilReducer
 });
 
 export default rootReducer;

@@ -31,46 +31,90 @@ const Register = ({ history, userRegister, error, autenticado }) => {
   return (
     <div className='container mt-4'>
       {error && alertMessage}
-      <form onSubmit={submitNewUser}>
-        <div className='form-group'>
-          <label htmlFor='nombreUsuario'>Nombre de Usuario</label>
-          <input
-            type='text'
-            className='form-control'
-            id='nombreUsuario'
-            aria-describedby='nombreHelp'
-            value={nombreUsuario}
-            onChange={e => {
-              setNombreUsuario(e.target.value);
-            }}
-          />
+      <div className='row justify-content-center'>
+        <div className='col-md-7 col-lg-6 col-sm-10'>
+          <div className='border p-4'>
+            <h2 className='text-center mx-3 mb-3'>INICIAR SESIÓN</h2>
+            <form onSubmit={submitNewUser}>
+              <div className='form-group'>
+                <label htmlFor='nombreUsuario'>Nombre de Usuario</label>
+                <div className='input-group'>
+                  <div className='input-group-prepend'>
+                    <span
+                      className='input-group-text'
+                      id='validationTooltipUsernamePrepend'
+                    >
+                      <i className='fas fa-user'></i>
+                    </span>
+                  </div>
+                  <input
+                    type='text'
+                    className='form-control'
+                    id='nombreUsuario'
+                    aria-describedby='nombreHelp'
+                    placeholder='Usuario'
+                    value={nombreUsuario}
+                    onChange={e => {
+                      setNombreUsuario(e.target.value);
+                    }}
+                  />
+                </div>
+              </div>
+              <div className='form-group'>
+                <label htmlFor='exampleInputPassword1'>Contraseña</label>
+                <div className='input-group'>
+                  <div className='input-group-prepend'>
+                    <span
+                      className='input-group-text'
+                      id='validationTooltipUsernamePrepend'
+                    >
+                      <i className='fas fa-lock'></i>
+                    </span>
+                  </div>
+                  <input
+                    type='password'
+                    className='form-control'
+                    id='exampleInputPassword1'
+                    value={pass}
+                    placeholder='*******'
+                    onChange={e => {
+                      setPass(e.target.value);
+                    }}
+                  />
+                </div>
+              </div>
+              <div className='form-group'>
+                <label htmlFor='exampleInputPassword1'>
+                  Repetir Contraseña
+                </label>
+                <div className='input-group'>
+                  <div className='input-group-prepend'>
+                    <span
+                      className='input-group-text'
+                      id='validationTooltipUsernamePrepend'
+                    >
+                      <i className='fas fa-lock'></i>
+                    </span>
+                  </div>
+                  <input
+                    type='password'
+                    className='form-control'
+                    id='exampleInputPassword2'
+                    value={pass2}
+                    placeholder='*******'
+                    onChange={e => {
+                      setPass2(e.target.value);
+                    }}
+                  />
+                </div>
+              </div>
+              <div className='text-center'>
+                <button className='btn btn-primary w-75'>Ingresar</button>
+              </div>
+            </form>
+          </div>
         </div>
-        <div className='form-group'>
-          <label htmlFor='exampleInputPassword1'>Contraseña</label>
-          <input
-            type='password'
-            className='form-control'
-            id='exampleInputPassword1'
-            value={pass}
-            onChange={e => {
-              setPass(e.target.value);
-            }}
-          />
-        </div>
-        <div className='form-group'>
-          <label htmlFor='exampleInputPassword1'>Repetir Contraseña</label>
-          <input
-            type='password'
-            className='form-control'
-            id='exampleInputPassword2'
-            value={pass2}
-            onChange={e => {
-              setPass2(e.target.value);
-            }}
-          />
-        </div>
-        <button className='btn btn-primary'>Ingresar</button>
-      </form>
+      </div>
     </div>
   );
 };

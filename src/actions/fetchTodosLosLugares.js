@@ -14,7 +14,7 @@ export const fetchTodosLosLugares = () => dispatch => {
     .then(res => {
       dispatch(fetchTodosLosLugaresSuccess(res.data));
     })
-    .catch(err => dispatch(fetchTodosLosLugaresError(err.resonse.data.error)));
+    .catch(err => dispatch(fetchTodosLosLugaresError(err)));
 };
 
 const fetchTodosLosLugaresInicio = () => {

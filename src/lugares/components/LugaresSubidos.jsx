@@ -17,9 +17,15 @@ const LugaresSubidos = ({ lugares }) => {
               <div className='card-body'>
                 <h6 className='card-title text-truncate'>{l.nombre}</h6>
                 <p className='card-text'>
-                  <Link to={`/lugar/${l._id}`}>
-                    <button className='btn btn-dark'>Ver Lugar</button>
-                  </Link>
+                  <Link
+                    to={`/lugar/${l._id}`}
+                    className='btn btn-outline-success btn-sm'
+                  >
+                    Ver lugar
+                  </Link>{' '}
+                  <span className='mx-2 text-danger'>
+                    {l.likes.length} <i className='far fa-heart'></i>
+                  </span>
                 </p>
               </div>
             </div>

@@ -7,15 +7,16 @@ import Mapa from '../components/Mapa';
 import Spinner from '../components/Spinner';
 import actions from '../../actions';
 import Comentarios from '../components/Comentarios';
-import foto from '../../img/profile.png';
-const { fetchLugar, comentarLugar, likearLugar } = actions;
+
+const { fetchLugar, comentarLugar, likearLugar, borrarLugar } = actions;
 
 const Lugar = props => {
   const [comentario, setComentario] = useState('');
+  const { fetchLugar } = props;
 
   useEffect(() => {
-    props.fetchLugar(props.match.params.id);
-  }, []);
+    fetchLugar(props.match.params.id);
+  }, [fetchLugar, props.match.params.id]);
 
   const marker = <Marker position={props.lugar.latlng}></Marker>;
 
@@ -27,6 +28,15 @@ const Lugar = props => {
 
   const likearLugar = e => {
     props.likearLugar(props.match.params.id);
+  };
+
+  const eliminarLugar = e => {
+    const confirmado = window.confirm(
+      'Está seguro que desea eliminar este lugar?'
+    );
+    if (confirmado) {
+      props.borrarLugar(props.match.params.id, props.history);
+    }
   };
 
   //VERIFICAR SI EL USER HA DADO LIKE AL LUGAR
@@ -62,7 +72,7 @@ const Lugar = props => {
     </div>
   );
 
-  if (props.cargando || props.cargandoComentario) {
+  if (props.cargando || props.cargandoComentario || props.cargandoBorrar) {
     return <Spinner />;
   }
 
@@ -76,39 +86,43 @@ const Lugar = props => {
             <div className='col-md-6 col-sm-6 mx-auto'>
               <div className='row'>
                 <div className='col'>
-                  <h6 className='text-active'>Compartido por:</h6>
-                  <Link
-                    to={`/profile/${props.lugar.usuario.id}`}
-                    style={{ textDecoration: 'none' }}
-                    className='text-muted'
-                  >
-                    <img
-                      src={
-                        props.lugar.usuario.foto
-                          ? `http://localhost:5000/${props.lugar.usuario.foto}`
-                          : foto
-                      }
-                      className={'rounded'}
-                      style={{ height: '60px', width: '60px' }}
-                      alt=''
-                    />
-                    <p>{props.lugar.usuario.nombreUsuario}</p>
-                  </Link>
+                  <h6 className='text-active'>
+                    Compartido por:{' '}
+                    <Link
+                      to={`/profile/${props.lugar.usuario.id}`}
+                      style={{ textDecoration: 'none' }}
+                    >
+                      {props.lugar.usuario.nombreUsuario}
+                    </Link>
+                  </h6>
+                  {props.lugar.idUsuario === props.idUsuario && (
+                    <button
+                      className='btn btn-danger btn-sm mb-2'
+                      onClick={eliminarLugar}
+                    >
+                      Eliminar lugar
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
           </div>
-          <div className='row'>
-            <div className='col-md-6 mb-2 bg-white p-2' style={{ height: 350 }}>
+          <div className='row justify-content-center'>
+            <div className='col-lg-6 mb-2 px-1' style={{ height: 350 }}>
               <img
                 src={`http://localhost:5000/${props.lugar.foto}`}
                 alt='foto del lugar'
                 className='rounded mx-auto'
-                style={{ height: '100%' }}
+                style={{ height: '100%', width: '95%' }}
               />
             </div>
-            <div className='col-md-6 mb-2'>
-              <Mapa zoom={16} latlng={props.lugar.latlng} markers={marker} />
+            <div className='col-lg-6 mb-2'>
+              <Mapa
+                className='rounded'
+                zoom={16}
+                latlng={props.lugar.latlng}
+                markers={marker}
+              />
             </div>
           </div>
           <div className='col-md-6 mx-auto'>
@@ -157,6 +171,7 @@ const mapStateToProps = state => {
     error: state.lugar.error,
     cargando: state.lugar.cargando,
     cargandoComentario: state.comentario.cargando,
+    cargandoBorrar: state.borrarLugar.cargando,
     errorComentario: state.comentario.error,
     cargandoLike: state.like.cargando
   };
@@ -165,5 +180,6 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
   fetchLugar,
   comentarLugar,
-  likearLugar
+  likearLugar,
+  borrarLugar
 })(Lugar);

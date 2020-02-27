@@ -34,7 +34,10 @@ const Navbar = props => {
   );
 
   return (
-    <nav className='navbar navbar-expand-lg navbar-dark bg-primary'>
+    <nav
+      className='navbar navbar-expand-lg navbar-dark bg-primary'
+      style={{ minHeight: '10%' }}
+    >
       <Link className='navbar-brand' to='/'>
         LUGARES.IO
       </Link>
@@ -62,11 +65,6 @@ const Navbar = props => {
           <li className='nav-item'>
             <Link className='nav-link' to='/lugares'>
               Lugares
-            </Link>
-          </li>
-          <li className='nav-item'>
-            <Link className='nav-link' to='/'>
-              Usuarios
             </Link>
           </li>
         </ul>

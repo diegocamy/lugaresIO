@@ -12,13 +12,14 @@ const { fetchProfile } = actions;
 
 const Dashboard = props => {
   //cargar datos del user logeado
+  const { fetchProfile } = props;
   useEffect(() => {
     if (!props.autenticado) {
       props.history.push('/login');
     } else {
-      props.fetchProfile(props.idLogeado);
+      fetchProfile(props.idLogeado);
     }
-  }, [props.autenticado]);
+  }, [props.autenticado, props.history, fetchProfile, props.idLogeado]);
 
   const latlng = {
     lat: -30.90534,
