@@ -136,7 +136,6 @@ route.post('/like/:id', authValidate, (req, res) => {
     } else {
       //si no ha dado like, agrega el like
       lugar.likes.unshift(req.user.id);
-      console.log(lugar.likes);
     }
 
     //guarda los cambios
@@ -270,7 +269,7 @@ route.patch('/:id', authValidate, upload.single('fotoLugar'), (req, res) => {
 route.delete('/:id', authValidate, (req, res) => {
   Lugar.findOneAndDelete({
     _id: req.params.id,
-    usuario: req.user.id
+    idUsuario: req.user.id
   })
     .then(lugar => res.json(lugar))
     .catch(err => res.status(400).json({ error: err }));
