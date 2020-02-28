@@ -21,7 +21,7 @@ Los usuarios deben crear una cuenta, la cual pueden personalizar luego agregando
 *Express.
 *MongoDB.
 
-#### Cosas a mejorar para el próximo proyecto:
+#### `Cosas a mejorar para el próximo proyecto:`
 *Estructura de carpetas y archivos
 *Estructura del código, sobre todo la parte de routes en express y redux
 *Comentar mejor el código
