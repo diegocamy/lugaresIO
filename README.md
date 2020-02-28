@@ -1,4 +1,4 @@
-## [LUGARES.IO](https://lugaresio.heroku.com)
+## [LUGARES.IO](https://lugaresio.herokuapp.com)
 
 Si, soy malo con los nombres.
 
