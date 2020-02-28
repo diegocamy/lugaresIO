@@ -12,20 +12,20 @@ Los usuarios deben crear una cuenta, la cual pueden personalizar luego agregando
 ### `Stack`
 
 **Front End:**
-*React.
-*Redux.
-*Bootstrap.
+* React.
+* Redux.
+* Bootstrap.
 
 **Back End:**
-*Node.
-*Express.
-*MongoDB.
+* Node.
+* Express.
+* MongoDB.
 
 #### `Cosas a mejorar para el próximo proyecto:`
-*Estructura de carpetas y archivos
-*Estructura del código, sobre todo la parte de routes en express y redux
-*Comentar mejor el código
-*Usar async await en vez de promise -> then
-*Hacer commits mas seguidos y detallados
+* Estructura de carpetas y archivos
+* Estructura del código, sobre todo la parte de routes en express y redux
+* Comentar mejor el código
+* Usar async await en vez de promise -> then
+* Hacer commits mas seguidos y detallados
 
 
